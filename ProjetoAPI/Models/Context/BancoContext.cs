@@ -18,5 +18,6 @@ namespace ProjetoAPI.Models.Context
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
+
     }
 }

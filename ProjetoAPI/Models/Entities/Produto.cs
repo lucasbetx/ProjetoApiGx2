@@ -21,10 +21,8 @@ namespace ProjetoAPI.Models.Entities
         [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
         public string Descricao { get; set; }
 
-        [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
         public DateTime DataCadastro { get; set; }
 
-        [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
         public DateTime DataAlteracao { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ProjetoAPI.Models.Entities;
+﻿using ProjetoAPI.Models.Context;
+using ProjetoAPI.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,9 +28,25 @@ namespace ProjetoAPI.Models
         public string Senha { get; set; }
 
         [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
-        public bool UsuarioAdm { get; set; }
+        public string UsuarioAdm { get; set; }
 
         [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
         public bool Ativo { get; set; }
+
+
+        public Usuario Get(string email, string senha)
+        {
+            BancoContext db = new BancoContext();
+
+            return db.Usuarios.SingleOrDefault(m => m.Email == email && m.Senha == senha);
+        }
+
+        public Usuario GetEnable()
+        {
+            BancoContext db = new BancoContext();
+
+
+            return db.Usuarios.SingleOrDefault(m => m.Ativo);
+        }
     }
 }
