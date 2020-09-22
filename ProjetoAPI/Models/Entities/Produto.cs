@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProjetoAPI.Models.Context;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,5 +25,12 @@ namespace ProjetoAPI.Models.Entities
         public DateTime DataCadastro { get; set; }
 
         public DateTime DataAlteracao { get; set; }
+
+        public Produto GetId(int id)
+        {
+            BancoContext db = new BancoContext();
+
+            return db.Produtos.Find(id);
+        }
     }
 }

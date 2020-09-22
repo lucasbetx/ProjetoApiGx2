@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Http.ModelBinding;
 
 namespace ProjetoAPI.Models
 {
@@ -31,7 +32,7 @@ namespace ProjetoAPI.Models
         public string UsuarioAdm { get; set; }
 
         [Required(ErrorMessage = "O Campo {0} é obrigatório.")]
-        public bool Ativo { get; set; }
+        public string Ativo { get; set; }
 
 
         public Usuario Get(string email, string senha)
@@ -39,14 +40,7 @@ namespace ProjetoAPI.Models
             BancoContext db = new BancoContext();
 
             return db.Usuarios.SingleOrDefault(m => m.Email == email && m.Senha == senha);
-        }
 
-        public Usuario GetEnable()
-        {
-            BancoContext db = new BancoContext();
-
-
-            return db.Usuarios.SingleOrDefault(m => m.Ativo);
         }
     }
 }

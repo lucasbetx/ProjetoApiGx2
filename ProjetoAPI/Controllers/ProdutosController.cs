@@ -27,6 +27,7 @@ namespace ProjetoAPI.Controllers
         }
 
         [Authorize(Roles = "Admin, User")]
+        [HttpGet, Route("api/produtos/GetProdutoId/{id}")]
         [ResponseType(typeof(Produto))]
         public IHttpActionResult GetProdutoId(int id)
         {
@@ -39,27 +40,31 @@ namespace ProjetoAPI.Controllers
             return Ok(produto);
         }
 
-        ////[Authorize(Roles = "Admin")]
-        //[HttpGet, Route("api/produtos/{nome?}")]
-        //[ResponseType(typeof(Produto))]
-        //public IHttpActionResult GetProdutoNome(string nome)
-        //{
-        //    Produto produto = db.Produtos.SingleOrDefault(m => m.Nome == nome);
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet, Route("api/produtos/ProdutoNome/{nome}")]
+        [ResponseType(typeof(Produto))]
+        public IHttpActionResult ProdutoNome(string nome)
+        {
+            Produto produto = db.Produtos.SingleOrDefault(m => m.Nome == nome);
 
 
-        //    if (produto == null)
-        //    {
-        //        return NotFound();
-        //    }
+            if (produto == null)
+            {
+                return NotFound();
+            }
 
-        //    return Ok(produto);
-        //}
+            return Ok(produto);
+        }
 
         [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Ativo")]
+        [HttpPut, Route("api/produtos/PutProduto/{id}")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutProduto(int id, Produto produto)
         {
+
+            var getInfo = produto.GetId(id);
+            
 
             if (!ModelState.IsValid)
             {
@@ -71,20 +76,13 @@ namespace ProjetoAPI.Controllers
                 return BadRequest();
             }
 
-
-            db.Entry(produto).State = EntityState.Modified;
+            produto.DataCadastro = getInfo.DataCadastro;
             produto.DataAlteracao = DateTime.Now;
+            db.Entry(produto).State = EntityState.Modified;
 
             try
             {
-                if (user.Ativo == true)
-                {
-                    db.SaveChanges();
-                }
-                else
-                {
-                    return Json("Erro, usuario inativo.");
-                }
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -102,6 +100,7 @@ namespace ProjetoAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Ativo")]
         [ResponseType(typeof(Produto))]
         public IHttpActionResult PostProduto(Produto produto)
         {
@@ -115,23 +114,32 @@ namespace ProjetoAPI.Controllers
 
             produto.DataCadastro = DateTime.Now;
 
-            var teste = usuario.GetEnable();
-
-            if (user.Ativo == true)
-            {
-                db.Produtos.Add(produto);
-                db.SaveChanges();
-                return CreatedAtRoute("DefaultApi", new { id = produto.Id }, produto);
-            }
-            else
-            {
-                return Json("Erro, usuario inativo.");
-
-            }
+            db.Produtos.Add(produto);
+            db.SaveChanges();
+            return CreatedAtRoute("DefaultApi", new { id = produto.Id }, produto);
 
         }
 
+        //Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Ativo")]
+        //[ResponseType(typeof(Produto))]
+        //[HttpPost, Route("api/produtos/DeleteAnyProdutos")]
+        //public IHttpActionResult DeleteMultipleProdutos([FromBody] Produto produto)
+        //{
+            
+        //    if (produto == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    db.Produtos.Remove(produto);
+        //    db.SaveChanges();
+
+        //    return Ok(produto);
+        //}
+
         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Ativo")]
         [ResponseType(typeof(Produto))]
         public IHttpActionResult DeleteProduto(int id)
         {
@@ -141,17 +149,10 @@ namespace ProjetoAPI.Controllers
                 return NotFound();
             }
 
-            if (user.Ativo)
-            {
-                db.Produtos.Remove(produto);
-                db.SaveChanges();
+            db.Produtos.Remove(produto);
+            db.SaveChanges();
 
-                return Ok(produto);
-            }
-            else
-            {
-                return Json("Erro, usuario inativo.");
-            }
+            return Ok(produto);
         }
 
         protected override void Dispose(bool disposing)

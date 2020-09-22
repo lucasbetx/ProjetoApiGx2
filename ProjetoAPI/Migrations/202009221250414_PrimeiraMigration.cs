@@ -28,7 +28,7 @@ namespace ProjetoAPI.Migrations
                         Email = c.String(nullable: false, unicode: false),
                         Senha = c.String(nullable: false, unicode: false),
                         UsuarioAdm = c.String(nullable: false, unicode: false),
-                        Ativo = c.Boolean(nullable: false),
+                        Ativo = c.String(nullable: false, unicode: false),
                     })
                 .PrimaryKey(t => t.Id);
             

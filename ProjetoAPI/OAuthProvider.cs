@@ -4,6 +4,9 @@ using ProjetoAPI.Models.Context;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace ProjetoAPI
 {
@@ -22,22 +25,23 @@ namespace ProjetoAPI
 
                 Usuario user = new Usuario().Get(email, password);
 
-                if (email != null)
+                if (user != null)
                 {
 
                     List<Claim> claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.Nome),
                         new Claim("UserID", user.Id.ToString()),
-                        new Claim(ClaimTypes.Role, user.UsuarioAdm)
-                    };
+                        new Claim(ClaimTypes.Role, user.UsuarioAdm),
+                        new Claim(ClaimTypes.Role, user.Ativo)
+                };
                     ClaimsIdentity OAuthIdentity = new ClaimsIdentity(claims, Startup.OAuthOptions.AuthenticationType);
 
                     context.Validated(new Microsoft.Owin.Security.AuthenticationTicket(OAuthIdentity, new Microsoft.Owin.Security.AuthenticationProperties() { }));
                 }
-                if (email == null)
+                else
                 {
-                    context.SetError("erro", "erro");
+                    context.SetError("Erro", "Os dados passados como username e password estão incorretos!");
                 }
             });
         }

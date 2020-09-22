@@ -221,9 +221,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202009211405347_PrimeiraMigration.cs" />
-    <Compile Include="Migrations\202009211405347_PrimeiraMigration.Designer.cs">
-      <DependentUpon>202009211405347_PrimeiraMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202009221250414_PrimeiraMigration.cs" />
+    <Compile Include="Migrations\202009221250414_PrimeiraMigration.Designer.cs">
+      <DependentUpon>202009221250414_PrimeiraMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\BancoContext.cs" />
@@ -319,8 +319,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202009211405347_PrimeiraMigration.resx">
-      <DependentUpon>202009211405347_PrimeiraMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009221250414_PrimeiraMigration.resx">
+      <DependentUpon>202009221250414_PrimeiraMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

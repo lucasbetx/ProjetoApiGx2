@@ -84,20 +84,20 @@ namespace ProjetoAPI.Controllers
             return CreatedAtRoute("DefaultApi", new { id = usuario.Id }, usuario);
         }
 
-        //[ResponseType(typeof(Usuario))]
-        //public IHttpActionResult DeleteUsuario(int id)
-        //{
-        //    Usuario usuario = db.Usuarios.Find(id);
-        //    if (usuario == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [ResponseType(typeof(Usuario))]
+        public IHttpActionResult DeleteUsuario(int id)
+        {
+            Usuario usuario = db.Usuarios.Find(id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
 
-        //    db.Usuarios.Remove(usuario);
-        //    db.SaveChanges();
+            db.Usuarios.Remove(usuario);
+            db.SaveChanges();
 
-        //    return Ok(usuario);
-        //}
+            return Ok(usuario);
+        }
 
         protected override void Dispose(bool disposing)
         {
